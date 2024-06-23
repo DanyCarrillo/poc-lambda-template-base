@@ -1,5 +1,5 @@
 name: Deploy to Lambda Zip development
-run-name: deploy-to-lambda-zip-dev
+
 on:
   pull_request:
     types: closed
