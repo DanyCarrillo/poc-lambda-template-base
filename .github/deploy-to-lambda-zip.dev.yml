@@ -2,8 +2,33 @@ name: Deploy to Lambda Zip development
 run-name: deploy-to-lambda-zip-dev
 on:
   pull_request:
-    branches:
-      - main
-  push:
-    branches:
-      - main
+    types: closed
+    branches: [development]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-typescript:
+    name: TypeScript Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        id: setup-node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.12'
+          environment: 'staging'
+          continue-on-error: false
+          test-cmd: |
+            npm install -g pnpm@7.28
+            pnpm run test:cov
