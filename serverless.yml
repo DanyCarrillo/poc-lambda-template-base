@@ -1,0 +1,14 @@
+service: typescript-aws-lambda-example
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-plugin-warmup
+  - serverless-dotenv-plugin
+functions:
+  poc-lambda-template-base:
+    handler: src/handler.handler
